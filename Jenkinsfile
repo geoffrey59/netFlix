@@ -18,14 +18,14 @@ pipeline {
                 }
             }
     }
-     stage('Sonarqube') {
+    stage('Sonarqube') {
             steps {
-                   withSonarQubeEnv('sonarqube-scanner') {
-                        sh "mvn verify sonar:sonar"
-                   }
+               withSonarQubeEnv('sonarqube-scanner') {
+                    sh "mvn verify sonar:sonar"
+               }
             }
-     }
-     stage('Connexion au site') {
+    }
+    stage('Connexion au site') {
             steps {
                     shPublisher(
                                continueOnError: false, failOnError: true,
