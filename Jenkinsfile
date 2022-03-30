@@ -18,6 +18,7 @@ pipeline {
                     sh "mvn verify sonar:sonar"
                 }
             }
+            }
 
     stage('Run'){
             steps{
@@ -31,5 +32,5 @@ pipeline {
 //             junit '**/surefire-reports/*.xml'
 //         }
 //     }
-
+}
 
