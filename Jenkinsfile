@@ -24,7 +24,7 @@ pipeline {
                     sh "mvn verify sonar:sonar"
                }
             }
-    }
+
 }
 //     post {
 //         always {
