@@ -31,5 +31,5 @@ pipeline {
 //             junit '**/surefire-reports/*.xml'
 //         }
 //     }
-}
+
 
