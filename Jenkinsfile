@@ -27,6 +27,40 @@ pipeline {
         }
     }
 
+
+
+    sshPublisher(
+            continueOnError: false, failOnError: true,
+            publishers: [
+                    sshPublisherDesc(
+                            configName: "nicolas_server",
+                            verbose: true,
+                            transfers: [
+                                    sshTransfer(
+                                            sourceFiles: "*.html",
+                                            remoteDirectory: "out/"
+                                    ),
+                                    sshTransfer(
+                                          sourceFiles: "out/movies/",
+                                          remoteDirectory: "/movies"
+                                    )
+                            ])
+            ]
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 //     post {
 //         always {
