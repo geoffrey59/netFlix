@@ -11,14 +11,6 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
-    stage('Sonarqube') {
-
-            steps {
-                withSonarQubeEnv('sonarqube-scanner') {
-                    sh "mvn verify sonar:sonar"
-                }
-            }
-            }
 
     stage('Run'){
             steps{
@@ -26,6 +18,36 @@ pipeline {
                 }
             }
     }
+     stage('Sonarqube') {
+
+                steps {
+                    withSonarQubeEnv('sonarqube-scanner') {
+                        sh "mvn verify sonar:sonar"
+                    }
+                }
+                }
+    stage('Connexion au site') {
+        steps {
+                shPublisher(
+                                   continueOnError: false, failOnError: true,
+                                   publishers: [
+                                     sshPublisherDesc(
+                                      configName: "rouseaauNicolas",
+                                      verbose: true,
+                                      transfers: [
+                                       sshTransfer(
+                                        sourceFiles: "out/*",
+                                        remoteDirectory: "/"
+                                       ),
+                                       sshTransfer(
+                                        sourceFiles: "out/movies/*",
+                                        remoteDirectory: "/movies"
+                                       )
+                                      ])
+                                   ]
+                                )
+                                }
+                            }
 
 //     post {
 //         always {
