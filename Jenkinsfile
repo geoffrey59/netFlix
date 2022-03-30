@@ -4,6 +4,19 @@ pipeline {
             image 'maven:3.8.1-adoptopenjdk-11'
         }
     }
+    stage('Sonarqube') {
+        environment {
+            scannerHome = tool 'SonarQubeScanner'
+        }
+        steps {
+            withSonarQubeEnv('sonarqube') {
+                sh "${scannerHome}/bin/sonar-scanner"
+            }
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+
     stages {
         stage('Build') {
             steps {
@@ -23,10 +36,10 @@ pipeline {
             }
     }
 
-    post {
-        always {
-            junit '**/surefire-reports/*.xml'
-        }
-    }
+//     post {
+//         always {
+//             junit '**/surefire-reports/*.xml'
+//         }
+//     }
 }
 
