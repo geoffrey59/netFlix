@@ -12,22 +12,12 @@ pipeline {
             }
         }
     stage('Sonarqube') {
-            environment {
-                scannerHome = tool 'SonarQubeScanner'
-            }
+
             steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                withSonarQubeEnv('sonarqube-scanner') {
+                    sh "mvn verify sonar:sonar"
                 }
             }
-    stage ('prepare'){
-            steps{
-                git url:"https://github.com/geoffrey59/netFlix.git/",
-                    branch: "test"
-    }       }
 
     stage('Run'){
             steps{
