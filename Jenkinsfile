@@ -19,19 +19,18 @@ pipeline {
             }
     }
      stage('Sonarqube') {
-
-                steps {
-                    withSonarQubeEnv('sonarqube-scanner') {
+            steps {
+                   withSonarQubeEnv('sonarqube-scanner') {
                         sh "mvn verify sonar:sonar"
-                    }
-                }
-                }
-    stage('Connexion au site') {
-        steps {
-                shPublisher(
+                   }
+            }
+     }
+     stage('Connexion au site') {
+            steps {
+                    shPublisher(
                                    continueOnError: false, failOnError: true,
                                    publishers: [
-                                     sshPublisherDesc(
+                                   sshPublisherDesc(
                                       configName: "rouseaauNicolas",
                                       verbose: true,
                                       transfers: [
@@ -46,8 +45,8 @@ pipeline {
                                       ])
                                    ]
                                 )
-                                }
                             }
+                        }
 
 //     post {
 //         always {
