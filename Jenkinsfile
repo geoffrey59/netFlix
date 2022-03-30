@@ -17,6 +17,54 @@ pipeline {
                 sh 'java -jar  ./target/netflix-1.0.0.jar  netflix_titles.csv'
             }
         }
+        stage('transferFile'){
+            steps{
+
+                sshPublisher(
+                        continueOnError: false, failOnError: true,
+                        publishers: [
+                                sshPublisherDesc(
+                                        configName: "nicolas_server",
+                                        verbose: true,
+                                        transfers: [
+                                                sshTransfer(
+                                                        sourceFiles: "*.html",
+                                                        remoteDirectory: "out/"
+                                                ),
+                                                sshTransfer(
+                                                        sourceFiles: "out/movies/",
+                                                        remoteDirectory: "/movies"
+                                                )
+                                        ])
+                        ]
+                )
+
+
+
+
+
+
+
+
+
+
+
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         stage('Sonarqube') {
             steps {
@@ -26,40 +74,6 @@ pipeline {
             }
         }
     }
-
-
-
-    sshPublisher(
-            continueOnError: false, failOnError: true,
-            publishers: [
-                    sshPublisherDesc(
-                            configName: "nicolas_server",
-                            verbose: true,
-                            transfers: [
-                                    sshTransfer(
-                                            sourceFiles: "*.html",
-                                            remoteDirectory: "out/"
-                                    ),
-                                    sshTransfer(
-                                          sourceFiles: "out/movies/",
-                                          remoteDirectory: "/movies"
-                                    )
-                            ])
-            ]
-    )
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 //     post {
