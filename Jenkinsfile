@@ -25,30 +25,7 @@ pipeline {
                }
             }
     }
-    stage('Connexion au site') {
-            steps {
-                    shPublisher(
-                               continueOnError: false, failOnError: true,
-                               publishers: [
-                               sshPublisherDesc(
-                                  configName: "rouseaauNicolas",
-                                  verbose: true,
-                                  transfers: [
-                                   sshTransfer(
-                                    sourceFiles: "out/*",
-                                    remoteDirectory: "/"
-                                   ),
-                                   sshTransfer(
-                                    sourceFiles: "out/movies/*",
-                                    remoteDirectory: "/movies"
-                                       )
-                                  ])
-                               ]
-                            )
-                        }
-                }
 
-    }
 //     post {
 //         always {
 //             junit '**/surefire-reports/*.xml'
