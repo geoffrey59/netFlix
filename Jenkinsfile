@@ -4,18 +4,6 @@ pipeline {
             image 'maven:3.8.1-adoptopenjdk-11'
         }
     }
-    stage('Sonarqube') {
-        environment {
-            scannerHome = tool 'SonarQubeScanner'
-        }
-        steps {
-            withSonarQubeEnv('sonarqube') {
-                sh "${scannerHome}/bin/sonar-scanner"
-            }
-            timeout(time: 10, unit: 'MINUTES') {
-                waitForQualityGate abortPipeline: true
-            }
-        }
 
     stages {
         stage('Build') {
@@ -23,6 +11,18 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+    stage('Sonarqube') {
+            environment {
+                scannerHome = tool 'SonarQubeScanner'
+            }
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
     stage ('prepare'){
             steps{
                 git url:"https://github.com/geoffrey59/netFlix.git/",
