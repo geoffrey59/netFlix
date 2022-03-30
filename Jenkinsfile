@@ -24,8 +24,12 @@ pipeline {
                     sh "mvn verify sonar:sonar"
                }
             }
-
+    }
 }
+
+
+
+
 //     post {
 //         always {
 //             junit '**/surefire-reports/*.xml'
