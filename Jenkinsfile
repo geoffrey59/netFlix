@@ -17,7 +17,7 @@ pipeline {
                 sh 'java -jar  ./target/netflix-1.0.0.jar  netflix_titles.csv'
                 }
             }
-    }
+
     stage('Sonarqube') {
             steps {
                withSonarQubeEnv('sonarqube-scanner') {
